@@ -6,9 +6,12 @@ import matplotlib as mpl
 import pandas as pd
 import numpy as np
 
-from position import position
+from stategrid.position import position
 
-class IntegrityError(Exception):
+class FormatError(Exception):
+    pass
+
+class DuplicateDataError(Exception):
     pass
 
 class StateData(object):
@@ -26,7 +29,7 @@ class StateData(object):
         
         self.merged_data = self._merge_data(['abbrev', 'state'])
         if self._has_dupes():
-            raise IntegrityError('Duplicate states in "state" column')
+            raise DuplicateDataError('Duplicate states in "state" column')
 
     def plot_grid(self, colname, cmap=cm.jet, dest_dir=None):
         StateGrid(self.merged_data, colname.lower(), cmap)
@@ -44,14 +47,13 @@ class StateData(object):
             is_abbrevs = sum([len(i.strip()) for i in self.user_data['state']]) / len(self.user_data) == 2
             self.user_data['state'] = self.user_data['state'].apply(str.lower)
         except KeyError:
-            raise KeyError('data must contain "state" column label with state names or abbreviations')
+            raise FormatError('data must contain "state" column label containing state names or abbreviations')
         
         if is_abbrevs:
             return self.pos_data.merge(self.user_data, how='left', left_on='abbrev', right_on='state')
         else:
             return self.pos_data.merge(self.user_data, how='left', left_on='state', right_on='state')        
-        
-        raise Exception('merge failed')
+
 
 class StateGrid(object):
     '''
@@ -139,27 +141,11 @@ class StateGrid(object):
         
 
 if __name__ == '__main__':
-#     pop_path = "./popdata.csv"
-#     pop_sd = StateData(pop_path)
-#     pop_sd.plot_grid('Population', cmap=cm.rainbow, dest_dir='./plots/')
-    
-#     elec_path = "./elecvisitdata.csv"
-#     elec_sd = StateData(elec_path)
-#     elec_sd.plot_grid('elec2012', cmap=cm.bwr, dest_dir='./plots/')
-#     elec_sd.plot_grid('visited', cmap=cm.OrRd, dest_dir='./plots/')
-#     
-    brk_path = "./popdata_broke.csv"
-    try:
-        brk_sd = StateData(brk_path)
-    except KeyError:
-        print('failed as expected with bad column name')
-
-    dupe_path = "./popdata_dupes.csv"
-    try:
-        dupe_sd = StateData(dupe_path)
-    except IntegrityError:
-        print('failed as expected with duplicate data')
-        
-    test_path = "./popdata_tests.csv"
-    test_sd = StateData(test_path)
-    test_sd.plot_grid('Population', cmap=cm.bwr, dest_dir='./plots/')
+    pop_path = "./popdata.csv"
+    pop_sd = StateData(pop_path)
+    pop_sd.plot_grid('Population', cmap=cm.rainbow, dest_dir='../tests/plots/')
+      
+    elec_path = "./elecvisitdata.csv"
+    elec_sd = StateData(elec_path)
+    elec_sd.plot_grid('elec2012', cmap=cm.bwr, dest_dir='../tests/plots/')
+    elec_sd.plot_grid('visited', cmap=cm.OrRd, dest_dir='../tests/plots/')

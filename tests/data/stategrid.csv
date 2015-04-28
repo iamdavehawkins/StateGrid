@@ -1,0 +1,52 @@
+State,Abbrev,Row,Column
+Alabama,AL,7,7
+Alaska,AK,8,1
+Arizona,AZ,6,2
+Arkansas,AR,6,5
+California,CA,5,1
+Colorado,CO,5,3
+Connecticut,CT,3,10
+DC,DC,6,9
+Delaware,DE,5,10
+Florida,FL,8,8
+Georgia,GA,7,8
+Hawaii,HI,8,2
+Idaho,ID,3,2
+Illinois,IL,4,6
+Indiana,IN,4,7
+Iowa,IA,4,5
+Kansas,KS,6,4
+Kentucky,KY,5,6
+Louisiana,LA,7,5
+Maine,ME,1,11
+Maryland,MD,5,9
+Massachusetts,MA,2,11
+Michigan,MI,3,7
+Minnesota,MN,3,5
+Mississippi,MS,7,6
+Missouri,MO,5,5
+Montana,MT,3,3
+Nebraska,NE,5,4
+Nevada,NV,4,2
+New Hampshire,NH,2,10
+New Jersey,NJ,4,10
+New Mexico,NM,6,3
+New York,NY,3,9
+North Carolina,NC,6,7
+North Dakota,ND,3,4
+Ohio,OH,4,8
+Oklahoma,OK,7,4
+Oregon,OR,4,1
+Pennsylvania,PA,4,9
+Rhode Island,RI,3,11
+South Carolina,SC,6,8
+South Dakota,SD,4,4
+Tennessee,TN,6,6
+Texas,TX,8,4
+Utah,UT,5,2
+Vermont,VT,2,9
+Virginia,VA,5,8
+Washington,WA,3,1
+West Virginia,WV,5,7
+Wisconsin,WI,3,6
+Wyoming,WY,4,3
