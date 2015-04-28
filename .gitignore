@@ -1,0 +1,8 @@
+
+*.pyc
+
+.project
+
+.pydevproject
+
+.README.md.html
