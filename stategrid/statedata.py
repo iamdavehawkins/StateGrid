@@ -28,13 +28,14 @@ class StateData(object):
         self.user_data.columns = map(str.lower, self.user_data.columns)
         
         self.merged_data = self._merge_data(['abbrev', 'state'])
+
         if self._has_dupes():
             raise DuplicateDataError('Duplicate states in "state" column')
 
-    def plot_grid(self, colname, cmap=cm.jet, dest_dir=None):
+    def plot_grid(self, colname, cmap=cm.jet, fname=None):
         StateGrid(self.merged_data, colname.lower(), cmap)
-        if dest_dir:
-            plt.savefig(os.path.join(dest_dir, '{}.png'.format(colname)))
+        if fname:
+            plt.savefig(fname)
         else:
             plt.show()
             
@@ -44,12 +45,13 @@ class StateData(object):
     def _merge_data(self, on):
         try:
             # try and detect if the column is state abbrevs or full state name
-            is_abbrevs = sum([len(i.strip()) for i in self.user_data['state']]) / len(self.user_data) == 2
+            is_abbrevs = sum([len(i.strip()) for i in self.user_data['state']]) / len(self.user_data) == 2.0
             self.user_data['state'] = self.user_data['state'].apply(str.lower)
         except KeyError:
             raise FormatError('data must contain "state" column label containing state names or abbreviations')
         
         if is_abbrevs:
+            self.pos_data.drop('state', axis=1, inplace=True)
             return self.pos_data.merge(self.user_data, how='left', left_on='abbrev', right_on='state')
         else:
             return self.pos_data.merge(self.user_data, how='left', left_on='state', right_on='state')        
@@ -60,7 +62,8 @@ class StateGrid(object):
     Plot numeric user_data by state on a grid where every state occupies the same visible space.
     Opposed to a typical chloropleth where the largest (and typically least dense) states occupy
     the most space ... and attention.
-
+    
+    Matplotlib Table is used heavily in this implementation
     mpl.Table docs (2004): http://doc.astro-wise.org/matplotlib.table.html
     '''
 
@@ -116,6 +119,7 @@ class StateGrid(object):
             org_value = float(val.iloc[0])
             
             if np.isnan(org_value):
+                # If the state is missing data, put hatches through it
                 cell.set_hatch('x')
             else:
                 norm_value = (org_value-self.mn) / (self.mx-self.mn) * 255
@@ -141,11 +145,15 @@ class StateGrid(object):
         
 
 if __name__ == '__main__':
-    pop_path = "./popdata.csv"
-    pop_sd = StateData(pop_path)
-    pop_sd.plot_grid('Population', cmap=cm.rainbow, dest_dir='../tests/plots/')
+#     pop_path = "../tests/data/statemhi3_13.csv"
+#     pop_sd = StateData(pop_path)
+#     pop_sd.plot_grid('medianincome', cmap=cm.rainbow, dest_dir='../tests/plots/')
+
+    dat_path = "../tests/data/popdata.csv"
+    sd = StateData(dat_path)
+    sd.plot_grid("population", fname='../tests/plots/')
       
-    elec_path = "./elecvisitdata.csv"
+    elec_path = "../tests/data/elecvisitdata.csv"
     elec_sd = StateData(elec_path)
-    elec_sd.plot_grid('elec2012', cmap=cm.bwr, dest_dir='../tests/plots/')
-    elec_sd.plot_grid('visited', cmap=cm.OrRd, dest_dir='../tests/plots/')
+    elec_sd.plot_grid('elec2012', cmap=cm.bwr, fname='../tests/plots/elec2012.png')
+    elec_sd.plot_grid('visited', cmap=cm.OrRd, fname='../tests/plots/visited.png')

@@ -12,7 +12,7 @@ position = [
  {'abbrev': 'ca', 'column': 1, 'row': 5, 'state': 'california'},
  {'abbrev': 'co', 'column': 3, 'row': 5, 'state': 'colorado'},
  {'abbrev': 'ct', 'column': 10, 'row': 3, 'state': 'connecticut'},
- {'abbrev': 'dc', 'column': 9, 'row': 6, 'state': 'washington dc'},
+ {'abbrev': 'dc', 'column': 9, 'row': 6, 'state': 'district of columbia'},
  {'abbrev': 'de', 'column': 10, 'row': 5, 'state': 'delaware'},
  {'abbrev': 'fl', 'column': 8, 'row': 8, 'state': 'florida'},
  {'abbrev': 'ga', 'column': 8, 'row': 7, 'state': 'georgia'},

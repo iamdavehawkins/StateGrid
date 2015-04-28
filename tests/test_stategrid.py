@@ -3,10 +3,10 @@ Created on Apr 28, 2015
 
 @author: DHawkins
 '''
+import os
 import unittest
 import filecmp
-from stategrid.stategrid import *
-
+from stategrid.statedata import StateData, FormatError, DuplicateDataError
 
 class StateGridTest(unittest.TestCase):
     
@@ -42,7 +42,7 @@ class StateGridTest(unittest.TestCase):
         '''test plot saves'''
         dat_path = "./data/popdata.csv"
         sd = StateData(dat_path)
-        sd.plot_grid("population", cmap=cm.rainbow, dest_dir='./plots/')
+        sd.plot_grid("population", fname='./plots/population.png')
         self.assertTrue(os.path.isfile('./plots/population.png'))
         self.assertTrue(filecmp.cmp('./plots/population.png', './plots/population_master.png'))
         
