@@ -11,22 +11,18 @@ from stategrid.statedata import StateData, FormatError, DuplicateDataError
 class StateGridTest(unittest.TestCase):
     
     def setUp(self):
-        test_name = self.shortDescription()
-        if test_name == 'test plot saves':
-            try:
-                # remove the file so the test doesn't wrongfully pass
-                os.remove('./plots/population.png')
-            except OSError:
-                pass
+        try:
+            # remove the file so the test doesn't wrongfully pass
+            os.remove('./plots/population.png')
+        except OSError:
+            pass
     
     def tearDown(self):
-        test_name = self.shortDescription()
-        if test_name == 'test plot saves':
-            try:
-                # remove the file so the test doesn't wrongfully pass next time
-                os.remove('./plots/population.png')
-            except OSError:
-                pass
+        try:
+            # remove the file so the test doesn't wrongfully pass next time
+            os.remove('./plots/population.png')
+        except OSError:
+            pass
 
     def test_no_state_column(self):
         '''test no state column'''
@@ -37,6 +33,18 @@ class StateGridTest(unittest.TestCase):
         '''test dupe state data'''
         brk_path = "./data/popdata_dupes.csv"
         self.assertRaises(DuplicateDataError, StateData, brk_path)
+        
+    def test_number_in_state_data(self):
+        '''test number in state data'''
+        brk_path = "./data/popdata_tests.csv"
+        self.assertRaises(ValueError, StateData, brk_path)
+        
+    def test_extra_data(self):
+        '''test extra data'''
+        brk_path = "./data/popdata_extra.csv"
+        sd = StateData(brk_path)
+        sd.plot_grid("population", fname='./plots/population.png')
+        self.assertTrue(os.path.isfile('./plots/population.png'))
         
     def test_plot_saves(self):
         '''test plot saves'''

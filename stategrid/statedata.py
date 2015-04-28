@@ -27,10 +27,9 @@ class StateData(object):
         self.user_data = pd.DataFrame.from_csv(self.datapath, index_col=None)
         self.user_data.columns = map(str.lower, self.user_data.columns)
         
-        self.merged_data = self._merge_data(['abbrev', 'state'])
-
-        if self._has_dupes():
-            raise DuplicateDataError('Duplicate states in "state" column')
+        self._check_input_data()
+            
+        self.merged_data = self._merge_data()
 
     def plot_grid(self, colname, cmap=cm.jet, fname=None):
         StateGrid(self.merged_data, colname.lower(), cmap)
@@ -39,23 +38,35 @@ class StateData(object):
         else:
             plt.show()
             
-    def _has_dupes(self):
-        return any(self.merged_data.duplicated(subset='state'))
-            
-    def _merge_data(self, on):
+    def _check_input_data(self):
+        # Check 'state' column exists
         try:
-            # try and detect if the column is state abbrevs or full state name
-            is_abbrevs = sum([len(i.strip()) for i in self.user_data['state']]) / len(self.user_data) == 2.0
-            self.user_data['state'] = self.user_data['state'].apply(str.lower)
+            self.user_data['state']
         except KeyError:
             raise FormatError('data must contain "state" column label containing state names or abbreviations')
+            
+        # Check no duplicate data
+        if any(self.user_data.duplicated(subset='state')):
+            raise DuplicateDataError('Duplicate states in "state" column')   
         
+        # Check states are all strings
+        if any(self.user_data['state'].apply(np.isreal)):
+            raise ValueError('"state" column has numeric/NaN/None data')
+    
+    def _is_abbrevs(self, series):
+        avg_len = sum([len(i.strip()) for i in series]) / len(self.user_data)
+        return avg_len == 2.0
+            
+    def _merge_data(self):
+        # try and detect if the column is state abbrevs or full state name
+        is_abbrevs = self._is_abbrevs(self.user_data['state'])
+        self.user_data['state'] = self.user_data['state'].apply(str.lower)
+            
         if is_abbrevs:
             self.pos_data.drop('state', axis=1, inplace=True)
             return self.pos_data.merge(self.user_data, how='left', left_on='abbrev', right_on='state')
         else:
             return self.pos_data.merge(self.user_data, how='left', left_on='state', right_on='state')        
-
 
 class StateGrid(object):
     '''
@@ -152,7 +163,7 @@ if __name__ == '__main__':
     dat_path = "../tests/data/popdata.csv"
     sd = StateData(dat_path)
     sd.plot_grid("population", fname='../tests/plots/')
-      
+       
     elec_path = "../tests/data/elecvisitdata.csv"
     elec_sd = StateData(elec_path)
     elec_sd.plot_grid('elec2012', cmap=cm.bwr, fname='../tests/plots/elec2012.png')

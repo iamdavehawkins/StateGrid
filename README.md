@@ -22,18 +22,19 @@ sd.plot_grid('elec2012', cmap=cm.bwr, fname='./plots/elec2012.png')
 #### Input Data Format (*.csv)
 |State _(required)_ | medianincome  | elec2012 |
 |----------------   |---------------|----------|
-|Michigan		    | 50056         | 0 		 |
+|Michigan		    | 50056         | 0 	   |
 |Texas			    | 52169         | 1        |
 |Indiana 		    | 47805         | 1        |
 |Nebraska           | 54777         | 1        | 
 |...|...|...|
 
-State abbreviations are also accepted (MI, TX, IN, NE)
+State abbreviations may be used instead (MI, TX, IN, NE)
 
 
 
 #### Requirements
 - Pandas
+- Numpy
 - Matplotlib
 
 #### TODO:
