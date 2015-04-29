@@ -33,9 +33,9 @@ State abbreviations may be used instead (MI, TX, IN, NE)
 
 
 #### Requirements
-- Pandas
-- Numpy
-- Matplotlib
+- Pandas 0.15.2+
+- Numpy 1.9.2+
+- Matplotlib 1.4.2+
 
 #### TODO:
 - Support for factor data
