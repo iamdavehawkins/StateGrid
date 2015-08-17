@@ -1,6 +1,6 @@
 # StateGrid
 
-For plotting data by state on a simple grid rather than a map. Especially useful when the geographic area of the state is not relevant to the data being presented. Hopefully, also a bit quicker and easier than a full blown chloropleth.
+For plotting data by state on a simple grid rather than a map. Especially useful when the geographic area of the state is not relevant to the data being presented. Hopefully, also a bit quicker and easier than a full blown choropleth.
 
 #### Sample Use
 

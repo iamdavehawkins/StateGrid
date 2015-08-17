@@ -83,7 +83,7 @@ class StateData(object):
 class StateGrid(object):
     '''
     Plot numeric user_data by state on a grid where every state occupies the same visible space.
-    Opposed to a typical chloropleth where the largest (and typically least dense) states occupy
+    Opposed to a typical choropleth where the largest (and typically least dense) states occupy
     the most space ... and attention.
 
     Matplotlib Table is used heavily in this implementation
