@@ -14,10 +14,10 @@ sd.plot_grid('elec2012', cmap=cm.bwr, fname='./plots/elec2012.png')
 ```
 
 #### Sample Output
-######2013 Median Income
-<img src="http://imgur.com/z9PzYrx.png" alt="Median Income 2013", width="420">
-######2012 Election Results
-<img src="http://imgur.com/yHTlW58.png" alt="2012 Election Results", width="420">
+###### 2013 Median Income
+![Median Income 2013](http://imgur.com/z9PzYrx.png)
+###### 2012 Election Results
+![2012 Election Results](http://imgur.com/yHTlW58.png)
 
 #### Input Data Format (*.csv)
 |State _(required)_ | medianincome  | elec2012 |
